@@ -31,7 +31,7 @@ async function initNav() {
     ${ME ? si('/messages', 'fa-comment-dots', 'Messages') + si('/cart', 'fa-cart-shopping', 'Cart') + si('/wishlist', 'fa-heart', 'Wishlist') + si('/my-orders', 'fa-receipt', 'My orders') + si('/my-listings', 'fa-boxes-stacked', 'My listings') + (ME.role === 'ADMIN' ? si('/admin/dashboard', 'fa-shield-halved', 'Admin') : '') : ''}
     ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/help', 'fa-circle-question', 'Help')}${si('/contact', 'fa-envelope', 'Contact')}</nav>
     <div class="sgap"></div>
-    ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar"><i class="fa-solid fa-user-graduate"></i></span><span class="pname"><b>${esc(ME.name)}</b><small>View profile</small></span></a>`
+    ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar">${ME.role === 'ADMIN' ? '<img src="/assets/images/creator.jpg" alt="">' : '<i class="fa-solid fa-user-graduate"></i>'}</span><span class="pname"><b>${esc(ME.name)}</b><small>View profile</small></span></a>`
          : '<div class="authbtns"><a class="btn" href="/login">Log in</a><a class="btn alt" href="/signup">Sign up</a></div>'}`;
   $('#top').innerHTML = `<button class="burger" id="bg" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
     <form action="/marketplace"><input name="q" placeholder="Search books, notes, calculators…"><button class="go"><i class="fa-solid fa-magnifying-glass"></i></button></form><div class="tsp"></div>
