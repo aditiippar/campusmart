@@ -29,7 +29,7 @@ async function initNav() {
   $('#nav').innerHTML = `<a class="brand" href="/"><img src="/assets/logo/logo.svg" alt=""><span>Campus<b>Mart</b></span></a>
     <nav>${si('/', 'fa-house', 'Home')}${si('/marketplace', 'fa-bag-shopping', 'Browse')}${si('/sell', 'fa-circle-plus', 'Sell')}
     ${ME ? si('/messages', 'fa-comment-dots', 'Messages') + si('/cart', 'fa-cart-shopping', 'Cart') + si('/wishlist', 'fa-heart', 'Wishlist') + si('/my-orders', 'fa-receipt', 'My orders') + si('/my-listings', 'fa-boxes-stacked', 'My listings') + (ME.role === 'ADMIN' ? si('/admin/dashboard', 'fa-shield-halved', 'Admin') : '') : ''}
-    ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/help', 'fa-circle-question', 'Help')}${si('/contact', 'fa-envelope', 'Contact')}</nav>
+    ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/about', 'fa-circle-info', 'About us')}${si('/help', 'fa-circle-question', 'Help')}${si('/contact', 'fa-envelope', 'Contact')}</nav>
     <div class="sgap"></div>
     ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar">${ME.role === 'ADMIN' ? '<img src="/assets/images/creator.jpg" alt="">' : '<i class="fa-solid fa-user-graduate"></i>'}</span><span class="pname"><b>${esc(ME.name)}</b><small>View profile</small></span></a>`
          : '<div class="authbtns"><a class="btn" href="/login">Log in</a><a class="btn alt" href="/signup">Sign up</a></div>'}`;
