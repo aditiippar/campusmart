@@ -1,3 +1,13 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Messages – CampusMart</title>
-<link rel="stylesheet" href="/css/style.css"></head><body ><header class="nav" id="nav"></header><main><h1>Messages</h1><div class="chat card"><div class="chatlist" id="cl"></div><div><div class="msgs" id="ms"></div><form id="cf" hidden style="display:flex;gap:8px"><input id="ci" placeholder="Type a message" autocomplete="off"><button class="btn">Send</button><button type="button" class="btn alt" id="meet">📍 Meet</button></form></div></div></main><footer id="foot"></footer>
-<script src="/socket.io/socket.io.js"></script><script src="/js/common.js"></script><script src="/js/chat.js"></script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Messages – CampusMart</title><link rel="stylesheet" href="/css/style.css"></head><body><header id="nav"></header><main>
+<h1>Messages</h1>
+<div class="chat card"><div class="chatlist" id="cl"></div>
+<div><div class="chead" id="ch" hidden></div><div class="msgs" id="ms"><div class="empty"><div style="font-size:3rem">💬</div><p>Select a conversation, or open a product and press “Chat with Seller”.</p></div></div>
+<div class="qr" id="qr" hidden></div>
+<form id="cf" hidden style="display:flex;gap:8px"><input id="ci" placeholder="Type a message" autocomplete="off"><button class="btn">Send</button><button type="button" class="btn alt" id="meet"><i class="fa-solid fa-location-dot"></i> Meet</button></form></div></div>
+<div class="modal" id="mm" hidden><div class="mbox"><h3>📍 Arrange a meetup</h3><p class="sub">Pick a spot on campus or share your location, then choose a time.</p>
+<label>Where?</label><div class="chips" id="places"></div>
+<p style="margin:10px 0 0"><button type="button" class="btn alt sm" id="loc"><i class="fa-solid fa-location-crosshairs"></i> Share my current location</button> <span class="sub" id="locst"></span></p>
+<label>Or type another place</label><input id="cplace" placeholder="e.g. Block B entrance">
+<label>When?</label><input type="datetime-local" id="when"><p class="err" id="merr"></p>
+<div class="mact"><button type="button" class="btn alt" id="mcancel">Cancel</button><button type="button" class="btn" id="msend">Send meetup</button></div></div></div>
+</main><footer id="foot"></footer><script src="/socket.io/socket.io.js"></script><script src="/js/common.js"></script><script src="/js/chat.js"></script></body></html>
