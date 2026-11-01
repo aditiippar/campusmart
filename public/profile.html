@@ -1,3 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Profile – CampusMart</title>
-<link rel="stylesheet" href="/css/style.css"></head><body ><header class="nav" id="nav"></header><main><form class="card form" id="f"><h2>Your profile</h2><label>Full name</label><input name="name"><label>College</label><input name="college"><label>Department</label><input name="department"><label>Year of study</label><input name="year" type="number" min="1" max="8"><label>Phone (optional, private)</label><input name="phone"><p class="err" id="err"></p><button class="btn">Save</button></form></main><footer id="foot"></footer>
-<script src="/js/common.js"></script><script src="/js/profile.js"></script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Profile – CampusMart</title><link rel="stylesheet" href="/css/style.css"></head><body><header id="nav"></header><main>
+<div class="pcover"></div>
+<div class="phead"><div class="bigav"><i class="fa-solid fa-user-graduate"></i></div><div><h1 id="pn">&nbsp;</h1><p class="sub" id="pe" style="margin:2px 0 8px"></p><span class="tag" id="pc" hidden></span></div></div>
+<div class="plinks"><a class="cat" href="/my-listings"><span class="ico c2"><i class="fa-solid fa-boxes-stacked"></i></span>My listings</a><a class="cat" href="/my-orders"><span class="ico c1"><i class="fa-solid fa-receipt"></i></span>My orders</a><a class="cat" href="/wishlist"><span class="ico c3"><i class="fa-solid fa-heart"></i></span>Wishlist</a><a class="cat" href="/messages"><span class="ico c4"><i class="fa-solid fa-comment-dots"></i></span>Messages</a></div>
+<form class="card pform" id="f"><h2><i class="fa-solid fa-id-card" style="color:var(--accent)"></i> Edit profile</h2><p class="sub">Your phone number is private and never shown on listings.</p>
+<div class="g2"><div><label>Full name</label><input name="name" required></div><div><label>College</label><input name="college"></div>
+<div><label>Department</label><input name="department" placeholder="e.g. Computer Engineering"></div>
+<div><label>Year of study</label><select name="year"><option value="">Select year</option><option value="1">First year</option><option value="2">Second year</option><option value="3">Third year</option><option value="4">Fourth year</option></select></div>
+<div class="full"><label>Phone (optional, private)</label><input name="phone" inputmode="tel"></div></div>
+<p class="err" id="err"></p><button class="btn"><i class="fa-solid fa-floppy-disk"></i> Save changes</button></form>
+</main><footer id="foot"></footer><script src="/js/common.js"></script><script src="/js/profile.js"></script></body></html>
