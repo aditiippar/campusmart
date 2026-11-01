@@ -1,4 +1,5 @@
 const next = new URLSearchParams(location.search).get('next') || (location.pathname.startsWith('/admin') ? '/admin/dashboard' : '/marketplace');
+fetch('/api/config').then(r => r.json()).then(c => { if (!c.googleEnabled) $('#google')?.remove(); });
 $('#google')?.setAttribute('href', '/api/auth/google?next=' + encodeURIComponent(next));
 $('#f').addEventListener('submit', async e => {
   e.preventDefault(); $('#err').textContent = '';
