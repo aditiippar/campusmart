@@ -25,8 +25,10 @@ router.post('/ask', requireAuth, async (req, res) => {
         ...history, { role: 'user', content: message }] })
     });
     const j = await r.json();
-    if (!r.ok) throw new Error(j.error?.message || 'OpenAI error');
+    if (!r.ok) throw Object.assign(new Error(j.error?.message || 'OpenAI error'), { status: r.status });
     res.json({ reply: j.choices[0].message.content });
-  } catch (e) { console.error('AI error', e.message); res.status(502).json({ error: 'The AI assistant could not answer right now.' }); }
+  } catch (e) { console.error('AI error', e.status, e.message);
+    const why = e.status === 401 ? 'The assistant is not set up correctly (invalid API key).' : e.status === 429 ? 'The assistant is out of credit or too busy right now.' : e.status === 404 ? 'The configured AI model is not available.' : 'The assistant could not answer right now.';
+    res.status(502).json({ error: why + ' Please try again later or use the Contact page.' }); }
 });
 module.exports = router;
