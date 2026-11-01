@@ -11,15 +11,40 @@ async function api(url, opts = {}) {
   return j;
 }
 let ME = null;
+function buildShell() {
+  const main = $('main'), foot = $('#foot');
+  if (!main || $('.content')) return;
+  const wrap = document.createElement('div'); wrap.className = 'content';
+  const top = document.createElement('div'); top.className = 'topbar'; top.id = 'top';
+  main.before(wrap); wrap.append(top, main, foot);
+  const fa = document.createElement('link'); fa.rel = 'stylesheet'; fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'; document.head.append(fa);
+  const ov = document.createElement('div'); ov.className = 'overlay'; ov.onclick = () => document.body.classList.remove('sbopen'); document.body.append(ov);
+  const ic = document.createElement('link'); ic.rel = 'icon'; ic.href = '/assets/logo/logo.svg'; document.head.append(ic);
+}
 async function initNav() {
+  buildShell();
   ME = await api('/auth/me', { login: false }).catch(() => null);
-  const l = (h, t) => `<a href="${h}">${t}</a>`;
-  $('#nav').innerHTML = `<a class="brand" href="/">Campus<span>Mart</span></a><nav>${l('/marketplace','Marketplace')}${l('/how-it-works','How it works')}${l('/help','Help')}
-    ${ME ? l('/sell','Sell')+l('/messages','Messages')+l('/cart','Cart')+l('/wishlist','Wishlist')+l('/my-orders','Orders')+l('/my-listings','My listings')+`<a href="/notifications">🔔<span class="badge" id="nb" hidden></span></a>`+l('/profile','Profile')+(ME.role==='ADMIN'?l('/admin/dashboard','Admin'):'') : ''}</nav>
-    ${ME ? '<button class="btn alt sm" id="lo">Log out</button>' : l('/login','<span class="btn sm">Log in</span>') + l('/signup','<span class="btn alt sm">Sign up</span>')}`;
+  const path = location.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+  const si = (h, i, t) => `<a class="si ${path === h || (h === '/' && path === '/home') ? 'on' : ''}" href="${h}"><i class="fa-solid ${i}"></i><span>${t}</span></a>`;
+  $('#nav').innerHTML = `<a class="brand" href="/"><img src="/assets/logo/logo.svg" alt=""><span>Campus<b>Mart</b></span></a>
+    <nav>${si('/', 'fa-house', 'Home')}${si('/marketplace', 'fa-bag-shopping', 'Browse')}${si('/sell', 'fa-circle-plus', 'Sell')}
+    ${ME ? si('/messages', 'fa-comment-dots', 'Messages') + si('/cart', 'fa-cart-shopping', 'Cart') + si('/wishlist', 'fa-heart', 'Wishlist') + si('/my-orders', 'fa-receipt', 'My orders') + si('/my-listings', 'fa-boxes-stacked', 'My listings') + (ME.role === 'ADMIN' ? si('/admin/dashboard', 'fa-shield-halved', 'Admin') : '') : ''}
+    ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/help', 'fa-circle-question', 'Help')}</nav>
+    <div class="sgap"></div>
+    ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar"><i class="fa-solid fa-user-graduate"></i></span><span>Profile</span></a>`
+         : '<div class="authbtns"><a class="btn" href="/login">Log in</a><a class="btn alt" href="/signup">Sign up</a></div>'}`;
+  $('#top').innerHTML = `<button class="burger" id="bg" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+    <form action="/marketplace"><input name="q" placeholder="Search books, notes, calculators…"><button class="go"><i class="fa-solid fa-magnifying-glass"></i></button></form><div class="tsp"></div>
+    ${ME ? `<a class="bell" href="/notifications" title="Notifications"><i class="fa-solid fa-bell"></i><span class="badge" id="nb" hidden></span></a><button class="btn alt sm" id="lo">Log out</button>` : '<a class="btn sm" href="/login">Log in</a>'}`;
+  $('#bg').onclick = () => document.body.classList.toggle('sbopen');
   $('#lo')?.addEventListener('click', async () => { await api('/auth/logout', { method: 'POST' }); location.href = '/'; });
   if (ME) refreshBadge();
-  $('#foot').innerHTML = 'CampusMart — Your Campus. Your Marketplace. · ' + [['about','About'],['contact','Contact'],['faq','FAQ'],['privacy','Privacy'],['terms','Terms']].map(([h,t]) => l('/'+h,t)).join(' · ');
+  const a = (h, t) => `<a href="${h}">${t}</a>`;
+  $('#foot').innerHTML = `<div class="fgrid"><div><div class="fbrand"><img src="/assets/logo/logo.svg" alt="">CampusMart</div><p>Your Campus. Your Marketplace.<br>A student-run marketplace where classmates buy, sell and exchange study materials.</p></div>
+    <div><h4>Explore</h4>${a('/marketplace', 'Browse')}${a('/sell', 'Sell an item')}${a('/how-it-works', 'How it works')}</div>
+    <div><h4>Company</h4>${a('/about', 'About CampusMart')}${a('/contact', 'Contact us')}${a('/help', 'Help &amp; support')}${a('/faq', 'FAQ')}</div>
+    <div><h4>Legal</h4>${a('/privacy', 'Privacy policy')}${a('/terms', 'Terms &amp; conditions')}</div></div>
+    <div class="fcopy">© ${new Date().getFullYear()} CampusMart. Made by students, for students.</div>`;
 }
 async function refreshBadge() {
   const n = (await api('/notifications').catch(() => [])).filter(x => !x.readAt).length;
