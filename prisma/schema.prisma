@@ -1,14 +1,70 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"
-  url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
 
-enum Role { USER ADMIN }
-enum UserStatus { ACTIVE SUSPENDED BLOCKED }
-enum Category { ENGINEERING_TEXTBOOKS ACADEMIC_BOOKS REFERENCE_BOOKS HANDWRITTEN_NOTES PRINTED_NOTES QUESTION_PAPERS PRACTICAL_JOURNALS LAB_MANUALS STATIONERY CALCULATORS DRAWING_INSTRUMENTS COLLEGE_ACCESSORIES OTHER }
-enum Condition { BRAND_NEW LIKE_NEW GOOD USED ACCEPTABLE }
-enum ProductStatus { AVAILABLE RESERVED SOLD UNAVAILABLE HIDDEN REMOVED }
-enum OrderStatus { PENDING ACCEPTED REJECTED MEETING_ARRANGED COMPLETED CANCELLED }
-enum ReportStatus { OPEN REVIEWED DISMISSED }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  BLOCKED
+}
+
+enum Category {
+  ENGINEERING_TEXTBOOKS
+  ACADEMIC_BOOKS
+  REFERENCE_BOOKS
+  HANDWRITTEN_NOTES
+  PRINTED_NOTES
+  QUESTION_PAPERS
+  PRACTICAL_JOURNALS
+  LAB_MANUALS
+  STATIONERY
+  CALCULATORS
+  DRAWING_INSTRUMENTS
+  COLLEGE_ACCESSORIES
+  OTHER
+}
+
+enum Condition {
+  BRAND_NEW
+  LIKE_NEW
+  GOOD
+  USED
+  ACCEPTABLE
+}
+
+enum ProductStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+  UNAVAILABLE
+  HIDDEN
+  REMOVED
+}
+
+enum OrderStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  MEETING_ARRANGED
+  COMPLETED
+  CANCELLED
+}
+
+enum ReportStatus {
+  OPEN
+  REVIEWED
+  DISMISSED
+}
 
 model User {
   id           String     @id @default(uuid())
