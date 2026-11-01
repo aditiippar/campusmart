@@ -1,0 +1,40 @@
+databases:
+  - name: campusmart-db
+    plan: basic-256mb
+services:
+  - type: web
+    name: campusmart
+    runtime: node
+    plan: starter            # persistent disks need a paid plan
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm start  # runs "prisma migrate deploy" then the server
+    healthCheckPath: /health
+    disk:
+      name: uploads
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      - key: DATABASE_URL
+        fromDatabase: { name: campusmart-db, property: connectionString }
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: APP_BASE_URL
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CALLBACK_URL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_INITIAL_PASSWORD
+        sync: false
