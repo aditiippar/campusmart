@@ -29,15 +29,15 @@ async function initNav() {
   $('#nav').innerHTML = `<a class="brand" href="/"><img src="/assets/logo/logo.svg" alt=""><span>Campus<b>Mart</b></span></a>
     <nav>${si('/', 'fa-house', 'Home')}${si('/marketplace', 'fa-bag-shopping', 'Browse')}${si('/sell', 'fa-circle-plus', 'Sell')}
     ${ME ? si('/messages', 'fa-comment-dots', 'Messages') + si('/cart', 'fa-cart-shopping', 'Cart') + si('/wishlist', 'fa-heart', 'Wishlist') + si('/my-orders', 'fa-receipt', 'My orders') + si('/my-listings', 'fa-boxes-stacked', 'My listings') + (ME.role === 'ADMIN' ? si('/admin/dashboard', 'fa-shield-halved', 'Admin') : '') : ''}
-    ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/help', 'fa-circle-question', 'Help')}</nav>
+    ${si('/how-it-works', 'fa-lightbulb', 'How it works')}${si('/help', 'fa-circle-question', 'Help')}${si('/contact', 'fa-envelope', 'Contact')}</nav>
     <div class="sgap"></div>
-    ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar"><i class="fa-solid fa-user-graduate"></i></span><span>Profile</span></a>`
+    ${ME ? `<a class="si prof ${path === '/profile' ? 'on' : ''}" href="/profile"><span class="avatar"><i class="fa-solid fa-user-graduate"></i></span><span class="pname"><b>${esc(ME.name)}</b><small>View profile</small></span></a>`
          : '<div class="authbtns"><a class="btn" href="/login">Log in</a><a class="btn alt" href="/signup">Sign up</a></div>'}`;
   $('#top').innerHTML = `<button class="burger" id="bg" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
     <form action="/marketplace"><input name="q" placeholder="Search books, notes, calculators…"><button class="go"><i class="fa-solid fa-magnifying-glass"></i></button></form><div class="tsp"></div>
     ${ME ? `<a class="bell" href="/notifications" title="Notifications"><i class="fa-solid fa-bell"></i><span class="badge" id="nb" hidden></span></a><button class="btn alt sm" id="lo">Log out</button>` : '<a class="btn sm" href="/login">Log in</a>'}`;
   $('#bg').onclick = () => document.body.classList.toggle('sbopen');
-  $('#lo')?.addEventListener('click', async () => { await api('/auth/logout', { method: 'POST' }); location.href = '/'; });
+  $('#lo')?.addEventListener('click', async () => { if (await confirmBox({ title: `Log out of ${ME.name}?`, text: 'You will need to sign in again to message sellers or manage your listings.', ok: 'Log out', danger: true })) { await api('/auth/logout', { method: 'POST' }); location.href = '/'; } });
   if (ME) refreshBadge();
   const a = (h, t) => `<a href="${h}">${t}</a>`;
   $('#foot').innerHTML = `<div class="fgrid"><div><div class="fbrand"><img src="/assets/logo/logo.svg" alt="">CampusMart</div><p>Your Campus. Your Marketplace.<br>A student-run marketplace where classmates buy, sell and exchange study materials.</p></div>
@@ -45,6 +45,14 @@ async function initNav() {
     <div><h4>Company</h4>${a('/about', 'About CampusMart')}${a('/contact', 'Contact us')}${a('/help', 'Help &amp; support')}${a('/faq', 'FAQ')}</div>
     <div><h4>Legal</h4>${a('/privacy', 'Privacy policy')}${a('/terms', 'Terms &amp; conditions')}</div></div>
     <div class="fcopy">© ${new Date().getFullYear()} CampusMart. Made by students, for students.</div>`;
+}
+function confirmBox({ title, text, ok = 'Confirm', danger }) {
+  return new Promise(res => {
+    const d = document.createElement('div'); d.className = 'modal';
+    d.innerHTML = `<div class="mbox"><h3>${esc(title)}</h3><p class="sub">${esc(text)}</p><div class="mact"><button class="btn alt" data-r="0">Cancel</button><button class="btn ${danger ? 'danger' : ''}" data-r="1">${esc(ok)}</button></div></div>`;
+    d.onclick = e => { const r = e.target.dataset.r; if (r !== undefined || e.target === d) { d.remove(); res(r === '1'); } };
+    document.body.append(d);
+  });
 }
 async function refreshBadge() {
   const n = (await api('/notifications').catch(() => [])).filter(x => !x.readAt).length;
