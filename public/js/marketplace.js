@@ -2,6 +2,7 @@ const CATS = ['ENGINEERING_TEXTBOOKS','ACADEMIC_BOOKS','REFERENCE_BOOKS','HANDWR
 const CONDS = ['BRAND_NEW','LIKE_NEW','GOOD','USED','ACCEPTABLE'];
 $('#category').innerHTML = '<option value="">All categories</option>' + CATS.map(c => `<option value="${c}">${label(c)}</option>`).join('');
 $('#condition').innerHTML = '<option value="">Any condition</option>' + CONDS.map(c => `<option value="${c}">${label(c)}</option>`).join('');
+for (const k of ['q', 'category']) { const v = new URLSearchParams(location.search).get(k); if (v) $('#flt [name=' + k + ']').value = v; }
 let page = 1;
 async function load() {
   const p = new URLSearchParams(new FormData($('#flt'))); [...p.keys()].forEach(k => !p.get(k) && p.delete(k)); p.set('page', page);
