@@ -1,0 +1,1 @@
+api('/products',{login:false}).then(d=>{$('#list').innerHTML=d.items.length?d.items.slice(0,8).map(card).join(''):empty('📚','No listings yet. Be the first to <a href="/sell">sell something</a>!')});
