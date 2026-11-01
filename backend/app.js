@@ -35,6 +35,7 @@ app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 600 }));
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, limit: 40 }));
 
 app.get('/health', (req, res) => res.send('ok'));
+app.get('/api/config', (req, res) => res.json({ supportEmail: process.env.SUPPORT_EMAIL || null, googleEnabled: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) }));
 app.use('/uploads', express.static(process.env.UPLOAD_DIR || path.join(__dirname, '../uploads'), { maxAge: '7d' }));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/market'));
