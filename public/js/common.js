@@ -30,4 +30,4 @@ function card(p) {
   return `<a class="card pcard" href="/product-details?id=${esc(p.id)}">${img}<div class="in"><b>${esc(p.title)}</b><div class="price">${money(p.pricePaise)}</div><span class="tag">${label(p.condition)}</span> <span class="tag">${esc(p.college)}</span>${p.status==='RESERVED'?' <span class="tag">Reserved</span>':''}</div></a>`;
 }
 const empty = (icon, text) => `<div class="empty"><div style="font-size:3rem">${icon}</div><p>${text}</p></div>`;
-document.addEventListener('DOMContentLoaded', () => { window.ready = initNav(); });
+window.ready = initNav();
