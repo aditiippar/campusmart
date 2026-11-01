@@ -15,7 +15,7 @@ passport.use(new Local({ usernameField: 'email' }, async (email, password, done)
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   passport.use(new Google({
     clientID: process.env.GOOGLE_CLIENT_ID, clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK_URL
+    callbackURL: process.env.GOOGLE_CALLBACK_URL || (process.env.APP_BASE_URL || '').replace(/\/$/, '') + '/api/auth/google/callback', proxy: true
   }, async (at, rt, profile, done) => {
     try {
       const email = profile.emails?.[0]?.value?.toLowerCase();
